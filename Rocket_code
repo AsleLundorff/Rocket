@@ -1,0 +1,130 @@
+import processing.serial.*;
+Serial myPort;
+int dataInput;
+
+PImage img;
+PImage img2;
+
+
+float StartTimer1 = 0;
+float StartTimer2 = 0;
+float StartTimer3 = 0;
+float StartTimer4 = 0;
+
+float Speed = 5;
+float Yrocket1 = 1000;
+float Yrocket2 = 1000;
+float Yrocket3 = 1000;
+float Yrocket4 = 1000;
+
+
+void Move1()  { //Baobab Tree
+  Yrocket1 = Yrocket1 - Speed;
+  if (Yrocket1 < 700){
+     Speed = 0;
+   }
+}
+
+void Move2()  { //Mount Everest
+  Yrocket2 = Yrocket2 - Speed;
+  if (Yrocket2 < 500){
+     Speed = 0;
+   }
+}
+void Move3()  { //The Moon
+  Yrocket3 = Yrocket3 - Speed;
+  if (Yrocket3 < 230){
+     Speed = 0;
+   }
+}
+void Move4()  { //The stars in the spiral galaxy
+  Yrocket4 = Yrocket4 - Speed;
+  if (Yrocket4 < 50 ){
+     Speed = 0;
+   }
+}
+
+
+void setup() {
+  size(1500,1000);
+ //println(Serial.list());
+ String portName = "COM5";  //change to your port address!
+ myPort = new Serial(this, portName, 9600);
+ 
+
+ 
+}
+
+void draw() {
+ println(dataInput);
+  img2 = loadImage("Background.jpg");
+  background(img2); 
+ //background(0);
+ //fill(255);
+{
+   fill(color(0));
+   rect(width/4.13,dataInput, 20, 2);  // use the dataInput to positionn ellipse on y axis
+} 
+//1
+   if (dataInput > 647 && dataInput < 711 ){ //Baobab Tree
+   StartTimer1 = StartTimer1 + 0.1;
+   StartTimer2 = 0;
+   StartTimer3 = 0;
+   StartTimer4 = 0;
+   if (StartTimer1 >1){
+   
+    img = loadImage("2 106 px i højden.png");
+     image(img,1000,Yrocket1);
+   Move1();
+   
+ }
+ }
+ 
+//2
+   if (dataInput > 712 && dataInput < 776){ //Mount Everest
+   StartTimer2 = StartTimer2 + 0.1;
+   StartTimer3 = 0;
+   StartTimer4 = 0;
+   StartTimer1 = 0;
+   if (StartTimer2 >1){
+   
+   img = loadImage("2 106 px i højden.png");
+     image(img,1000,Yrocket2);
+   Move2();
+ }
+ }
+ 
+//3
+   if (dataInput > 777 && dataInput < 841){ //The Moon
+   StartTimer3 = StartTimer3 + 0.1;
+   StartTimer2 = 0;
+   StartTimer1 = 0;
+   StartTimer4 = 0;
+   if (StartTimer3 >1){
+   
+   img = loadImage("2 106 px i højden.png");
+     image(img,1000,Yrocket3);
+   Move3();
+   }
+ }
+ 
+//4
+   if (dataInput > 842 && dataInput < 906){ //The stars in the spiral galaxy
+   StartTimer4 = StartTimer4 + 0.1;
+   StartTimer3 = 0;
+   StartTimer2 = 0;
+   StartTimer1 = 0;
+   if (StartTimer4 >1){
+   
+   img = loadImage("2 106 px i højden.png");
+     image(img,1000,Yrocket4);
+   Move4();
+   }
+ }
+}
+
+
+void serialEvent(Serial myPort) {
+  dataInput = myPort.read();
+  dataInput = dataInput + 650;
+ }
